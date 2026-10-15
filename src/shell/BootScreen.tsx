@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { BOOT_DURATION, wait } from '../core/boot/boot';
-import { useSystemStore } from '../store/systemStore';
 
 export function BootScreen({ onDone, skippable = false }: { onDone: () => void; skippable?: boolean }) {
   const [progress, setProgress] = useState(0);

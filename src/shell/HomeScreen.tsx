@@ -29,7 +29,17 @@ export function HomeScreen({ onPowerOff }: { onPowerOff: () => void }) {
     <div className="flex h-full flex-col px-5 pb-8 pt-16">
       <div className="flex-1">
         <div className="mb-8"><div className="text-3xl font-semibold">{new Date().toLocaleDateString([], { weekday: 'long' })}</div><div className="mt-1 text-xs text-white/60">{hardware.location}</div></div>
-        <div className="grid grid-cols-4 gap-x-4 gap-y-5">{appsForPage.map((id) => { const app = apps.find((a) => a.id === id)!; const Icon = app.icon; const item = positions.find((p) => p.appId === id)!; return <motion.button layout key={id} draggable onDragEnd={(e) => { const x = Math.max(0, Math.min(3, Math.round((e.clientX / Math.max(1, window.innerWidth)) * 4 - 0.5))); move(id, homePage, x, item.y); }} onClick={() => open(id)} className="flex flex-col items-center gap-2"><span className="icon-tile shadow-lg" style={{ color: app.accent }}><Icon size={23}/></span><span className="text-[10px] text-white/90">{app.name}</span></motion.button>; })}</div>
+        <div className="grid grid-cols-4 gap-x-4 gap-y-5">{appsForPage.map((id) => { const app = apps.find((a) => a.id === id)!; const Icon = app.icon; const item = positions.find((p) => p.appId === id)!; return <motion.button layout key={id} draggable onDragEnd={(e) => {
+              if (!('clientX' in e)) return;
+              const x = Math.max(
+                0,
+                Math.min(
+                  3,
+                  Math.round((e.clientX / Math.max(1, window.innerWidth)) * 4 - 0.5)
+                )
+              );
+              move(id, homePage, x, item.y);
+            }} onClick={() => open(id)} className="flex flex-col items-center gap-2"><span className="icon-tile shadow-lg" style={{ color: app.accent }}><Icon size={23}/></span><span className="text-[10px] text-white/90">{app.name}</span></motion.button>; })}</div>
       </div>
       <div className="mx-auto flex w-full max-w-sm items-center justify-around rounded-3xl bg-black/20 p-3 backdrop-blur-lg"><button aria-label="Open app drawer" onClick={() => setDrawer(true)} className="rounded-2xl bg-white/10 px-5 py-3 text-xs">All apps</button><button aria-label="Charge battery" onClick={() => { setHardware({ charging: !hardware.charging }); setToast(hardware.charging ? 'Charging stopped' : 'Charging started'); }} className="rounded-2xl bg-white/10 px-4 py-3 text-xs">{Math.round(hardware.batteryPercent)}%</button></div>
     </div>

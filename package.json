@@ -8,11 +8,12 @@
     "build": "tsc --noEmit && vite build && node scripts/postbuild.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . --ext .ts,.tsx --max-warnings 0",
-    "test": "vitest run",
+    "lint": "eslint . --max-warnings 0",
+    "test": "pnpm run test:unit",
     "test:e2e": "playwright test",
     "icons": "node scripts/generate-icons.mjs",
-    "verify": "node scripts/verify.mjs"
+    "verify": "node scripts/verify.mjs",
+    "test:unit": "vitest run tests"
   },
   "dependencies": {
     "framer-motion": "11.11.17",
@@ -32,6 +33,7 @@
     "@typescript-eslint/eslint-plugin": "8.18.0",
     "@typescript-eslint/parser": "8.18.0",
     "@vitejs/plugin-react": "4.3.4",
+    "autoprefixer": "^10.6.1",
     "eslint": "9.16.0",
     "eslint-plugin-react-hooks": "5.1.0",
     "jsdom": "25.0.1",

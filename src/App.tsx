@@ -10,7 +10,18 @@ import { DEVICE_PROFILES, type ThemeMode } from './types/system';
 import { simulateTick } from './core/hardware';
 
 export function App() {
-  const { hardware, settings, booted, locked, poweredOff, setBooted, setLocked, setPoweredOff, setSettings } = useSystemStore();
+  const {
+    hardware,
+    settings,
+    booted,
+    locked,
+    poweredOff,
+    setHardware,
+    setBooted,
+    setLocked,
+    setPoweredOff,
+    setSettings
+  } = useSystemStore();
   const [booting, setBooting] = useState(!booted);
   const [poweringOff, setPoweringOff] = useState(false);
   const [toolbar, setToolbar] = useState(true);

@@ -2,12 +2,32 @@ import { useMemo, useState } from 'react';
 import { Delete, Equal, History } from 'lucide-react';
 
 export function calculate(expression: string): number {
-  const normalized = expression.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-').replace(/[^0-9+\-*/().%\s]/g, '');
-  if (!normalized.trim()) return 0;
-  if (/[+\-*/%]\s*$/.test(normalized)) throw new Error('Incomplete expression');
-  const safe = normalized.replace(/(\d+(?:\.\d+)?)%/g, '($1/100)');
+  const normalized = expression
+    .replace(/×/g, '*')
+    .replace(/÷/g, '/')
+    .replace(/−/g, '-')
+    .replace(/[^0-9+\-*/().%\s]/g, '')
+    .trim();
+
+  if (!normalized) return 0;
+
+  // A trailing +, -, *, or / is incomplete.
+  // A trailing % is valid because percentage is a postfix operator.
+  if (/[+\-*/]\s*$/.test(normalized)) {
+    throw new Error('Incomplete expression');
+  }
+
+  const safe = normalized.replace(
+    /(\d+(?:\.\d+)?)%/g,
+    '($1/100)'
+  );
+
   const value = Function(`"use strict"; return (${safe})`)();
-  if (typeof value !== 'number' || !Number.isFinite(value)) throw new Error('Invalid expression');
+
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
+    throw new Error('Invalid expression');
+  }
+
   return value;
 }
 
